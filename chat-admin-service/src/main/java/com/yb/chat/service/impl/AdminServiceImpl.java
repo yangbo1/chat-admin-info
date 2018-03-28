@@ -30,4 +30,19 @@ public class AdminServiceImpl implements AdminService {
     public List findOnline() {
         return (List) userServiceClient.online();
     }
+
+    @Override
+    public Object findAllUser(int c, int p) {
+        return  userServiceClient.allUser(c, p);
+    }
+    /**
+     * 查询最后登录时间
+     * @param name 用户名
+     *
+     * @return 时间戳
+     */
+    @Override
+    public Object userLastLoginTime(String name) {
+        return userServiceClient.lastLoginTime(name);
+    }
 }

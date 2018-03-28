@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection-->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- 可选的Bootstrap主题文件（一般不使用） -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"></script>
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script th:src="@{/js/extendPagination.js}"></script>
+<body>
+<div class="container-fluid" id="LG">
+    <div class="row-fluid">
+        <div class="span12">
+            <h3>
+                h3. 这是一套可视化布局系统.
+            </h3>
+            <div th:include="header :: html"></div>
+            <!--<table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        账号
+                    </th>
+                    <th>
+                        姓名
+                    </th>
+                    <th>
+                        性别
+                    </th>
+                    <th>
+                        注册时间
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="success">
+                    <td>
+                        1
+                    </td>
+                    <td>
+                        啊啊啊
+                    </td>
+                    <td>
+                        女
+                    </td>
+                    <td>
+                        2018-2-9
+                    </td>
+                </tr>
+                </tbody>
+            </table>-->
+            <div id="callBackPagination" class="piece">
+                <div id="mainContent"></div>
+                <div id="callBackPager"></div>
+            </div>
+
+            <!-- 按钮触发模态框 -->
+            <!--<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">-->
+                <!--开始演示模态框-->
+            <!--</button>-->
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"
+                                    aria-hidden="true">×
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                <!--模态框（Modal）标题-->
+                            </h4>
+                        </div>
+                        <div class="modal-body" style="height: 500px">
+                            <div class="form-group">
+                               <img src="" class="img-circle" id="img" style="width: 80px;height: 80px;position: absolute;left: 50%;margin-left: -40px">
+                            </div>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label">姓名</label>
+                                <div class="col-sm-10">
+                                    <label id="realName">啊啊啊</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label">性别</label>
+                                <div class="col-sm-10">
+                                    <label id="gender">啊啊啊</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">个性签名</label>
+                                <div class="col-sm-10">
+                                    <label id="remark">啊啊啊</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">手机</label>
+                                <div class="col-sm-10">
+                                    <label id="phone">啊啊啊</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">微信</label>
+                                <div class="col-sm-10">
+                                    <label id="wechat">啊啊啊</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">学校</label>
+                                <div class="col-sm-10">
+                                    <label id="school">啊啊啊</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">职业</label>
+                                <div class="col-sm-10">
+                                    <label id="career">啊啊啊</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">手机</label>
+                                <div class="col-sm-10">
+                                    <label id="jobAddress">啊啊啊</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">注册时间</label>
+                                <div class="col-sm-10">
+                                    <label id="registTime">啊啊啊</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">最近登录</label>
+                                <div class="col-sm-10">
+                                    <label id="lastTime"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"
+                                    data-dismiss="modal">关闭
+                            </button>
+                            <button type="button" class="btn btn-primary">
+                                提交更改
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var totalCount = Number($('#totalCount1').val()) || 10, showCount = $('#showCount1').val(),
+
+            limit = Number($('#limit').val()) || 5;
+
+        createTable(1, limit, totalCount);
+
+        $('#callBackPager').extendPagination({
+
+                                                 totalCount: totalCount,
+
+                                                 showCount: showCount,
+
+                                                 limit: limit,
+
+                                                 callback: function (curr, limit, totalCount) {
+
+                                                     createTable(curr, limit, totalCount);
+
+                                                 }
+
+                                             });
+
+        function createTable(currPage, limit, total) {
+            $.ajax({
+                       type: "get",
+                       url: "http://localhost:9999/admin/userList",
+                       dataType: "json",
+                       data: {
+                           "currentPage": currPage,
+                           "pageSize": limit
+                       },
+                       success: function (data) {
+
+                           if (data) {
+                               var html = [], showNum = limit;
+                               totalCount = data.total;
+                               total = data.total;
+                               if (total - (currPage * limit) < 0) showNum = total - ((currPage - 1) * limit);
+
+                               html.push(' <table class="table table-hover table-striped">');
+
+                               html.push(' <caption>总人数(' + total + ')</caption>');
+
+                               html.push(' <thead><tr><th>账号</th><th>姓名</th><th>性别</th><th>注册时间</th><th>操作</th></tr></thead><tbody>');
+
+                               for (var i = 1; i <= showNum; i++) {
+                                   var name = data.list[i-1].name
+                                   var img = data.list[i-1].img
+                                   var realName = data.list[i-1].realName || ""
+                                   var gender = data.list[i-1].gender || ""
+
+                                   var cs = "success";
+                                   if (i%2==0) {cs = "active"}
+                                   html.push('<tr class='+cs+'><td>'+name+'</td>');
+                                   html.push('<td>'+realName+'</td>');
+                                   html.push('<td>'+gender+'</td>');
+                                   html.push('<td>'+timestampToTime(data.list[i-1].registTime)+'</td>');
+                                   html.push('<td><button type="button" class="btn btn-info" data-toggle="modal" onclick="showInfo('+JSON.stringify(data.list[i-1]).replace(/"/g, '&quot;')+')">查看</button></td>');
+                                   html.push('</tr>');
+
+                               }
+
+                               html.push('</tbody></table>');
+
+                               var mainObj = $('#mainContent');
+
+                               mainObj.empty();
+
+                               mainObj.html(html.join(''));
+
+                           }
+                       }
+                   })
+
+        }
+    })
+    function showInfo(data) {
+        $("#myModalLabel").text(data.name+"的信息")
+//        var html = [];
+//        html.push('<img src="'+data.img+'" class="img-circle" style="width: 50px;height: 50px;position: absolute;left: 50%;margin-left: -25px"/>')
+//        html.push('账号')
+//        $(".modal-body").empty();
+//        $(".modal-body").html(html)
+        $(".modal-body #img").attr("src", data.img)
+        $(".modal-body #realName").text(data.realName || " #")
+        $(".modal-body #gender").text(data.gender || " #")
+        $(".modal-body #remark").text(data.remark || " #")
+        $(".modal-body #phone").text(data.phone  || " #")
+        $(".modal-body #wechat").text(data.wechat || " #")
+        $(".modal-body #school").text(data.school || " #")
+        $(".modal-body #career").text(data.career || " #")
+        $(".modal-body #jobAddress").text(data.jobAddress || " #")
+        $(".modal-body #registTime").text(timestampToTime(data.registTime) || " #")
+
+        $("#myModal").modal("show")
+        $.ajax({
+            type : "get",
+            url : "http://localhost:9999/admin/userLastLoginTime/"+ data.name,
+            success: function (time) {
+                $(".modal-body #lastTime").text(timestampToTime(time) || " #")
+            }
+               })
+    }
+    function timestampToTime(timestamp) {
+        var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        Y = date.getFullYear() + '-';
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        D = date.getDate() + ' ';
+        h = date.getHours() + ':';
+        m = date.getMinutes() + ':';
+        s = date.getSeconds();
+        return Y+M+D+h+m+s;
+    }
+</script>
+</html>

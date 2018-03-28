@@ -3,6 +3,7 @@
  */
 package com.yb.chat.service;
 
+
 import java.util.List;
 
 /**
@@ -18,4 +19,20 @@ public interface AdminService {
      * @return
      */
     List findOnline();
+
+    /**
+     * 查询所有用户 分页
+     * @param c
+     * @param p
+     *
+     * @return
+     */
+    Object findAllUser(int c, int p);
+    /**
+     * 查询最后登录时间
+     * @param name 用户名
+     *
+     * @return 时间戳
+     */
+    Object userLastLoginTime(String name);
 }

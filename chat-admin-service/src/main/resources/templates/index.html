@@ -6,13 +6,31 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- 可选的Bootstrap主题文件（一般不使用） -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"></script>
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <body>
-<h1 th:inline="text">fuck your ass</h1>
-<span th:text="${name}"></span>
-<h1 th:inline="text">online</h1>
-    <div th:each="li:${list}">
-        <span th:text="${li}"/>
+<div class="container-fluid" id="LG">
+    <div class="row-fluid">
+        <div class="span12">
+            <h3>
+                h3. 这是一套可视化布局系统.
+            </h3>
+            <div th:include="header :: html"></div>
+            <h1>当前在线人数<span th:text="${size}"/></h1>
+            <ul th:each="ol : ${online}">
+                <li th:text="${ol}"></li>
+            </ul>
+        </div>
     </div>
-<span th:text="${size}"></span>
+</div>
 </body>
 </html>
