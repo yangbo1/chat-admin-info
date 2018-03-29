@@ -3,6 +3,8 @@
  */
 package com.yb.chat.service.impl;
 
+import com.google.common.base.Strings;
+
 import com.yb.chat.client.UserServiceClient;
 import com.yb.chat.service.AdminService;
 
@@ -44,5 +46,17 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Object userLastLoginTime(String name) {
         return userServiceClient.lastLoginTime(name);
+    }
+
+    @Override
+    public Object log(String name, int c, int p, String sort) {
+        if(Strings.isNullOrEmpty(name)) {
+            name = "";
+        }
+        if(Strings.isNullOrEmpty(sort)) {
+            sort = "";
+        }
+        Object log = userServiceClient.log(name, c, p, sort);
+        return log;
     }
 }

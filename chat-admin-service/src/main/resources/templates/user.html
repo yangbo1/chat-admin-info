@@ -175,21 +175,7 @@
 
         createTable(1, limit, totalCount);
 
-        $('#callBackPager').extendPagination({
 
-                                                 totalCount: totalCount,
-
-                                                 showCount: showCount,
-
-                                                 limit: limit,
-
-                                                 callback: function (curr, limit, totalCount) {
-
-                                                     createTable(curr, limit, totalCount);
-
-                                                 }
-
-                                             });
 
         function createTable(currPage, limit, total) {
             $.ajax({
@@ -244,6 +230,21 @@
                    })
 
         }
+        $('#callBackPager').extendPagination({
+
+                                                 totalCount: totalCount,
+
+                                                 showCount: showCount,
+
+                                                 limit: limit,
+
+                                                 callback: function (curr, limit, totalCount) {
+
+                                                     createTable(curr, limit, totalCount);
+
+                                                 }
+
+                                             });
     })
     function showInfo(data) {
         $("#myModalLabel").text(data.name+"的信息")

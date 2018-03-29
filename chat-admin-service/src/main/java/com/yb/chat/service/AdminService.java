@@ -4,6 +4,8 @@
 package com.yb.chat.service;
 
 
+import com.yb.chat.client.response.LogResp;
+
 import java.util.List;
 
 /**
@@ -35,4 +37,15 @@ public interface AdminService {
      * @return 时间戳
      */
     Object userLastLoginTime(String name);
+
+    /**
+     * 查看日志
+     * @param name
+     * @param c
+     * @param p
+     * @param sort
+     *
+     * @return
+     */
+    Object log(String name, int c, int p, String sort);
 }

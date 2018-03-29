@@ -107,4 +107,27 @@ public class AdminController {
     public Object userLastLoginTime(@PathVariable("name") String name) {
         return adminService.userLastLoginTime(name);
     }
+
+    @RequestMapping(value = "/logInfo", method = RequestMethod.GET)
+    @ResponseBody
+    public Object logInfo(HttpServletRequest request) {
+        String currentPage = request.getParameter("currentPage");
+        String pageSize = request.getParameter("pageSize");
+        String name = request.getParameter("name");
+        String sort = request.getParameter("sort");
+        int c;
+        int p;
+        c = Strings.isNullOrEmpty(currentPage) ? 1 : Integer.valueOf(currentPage);
+        p = Strings.isNullOrEmpty(pageSize) ? 10 : Integer.valueOf(pageSize);
+        return adminService.log(name,c,p,sort);
+    }
+    @RequestMapping(value = "/log", method = RequestMethod.GET)
+    public String log (HttpSession session) {
+        if (session.getAttribute("admin") != null){
+
+            return "log";
+        } else {
+            return "login";
+        }
+    }
 }
