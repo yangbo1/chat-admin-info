@@ -5,6 +5,7 @@ package com.yb.chat.controller;
 
 import com.google.common.base.Strings;
 
+import com.yb.chat.resp.OnLineTimeResp;
 import com.yb.chat.service.AdminService;
 
 import org.springframework.stereotype.Controller;
@@ -126,6 +127,25 @@ public class AdminController {
         if (session.getAttribute("admin") != null){
 
             return "log";
+        } else {
+            return "login";
+        }
+    }
+    /**
+     * 获取用户在线时长
+     * @return
+     */
+    @RequestMapping(value = "/getOnlineTime", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getOnlineTime(HttpServletRequest request){
+        return adminService.getOnlineTime();
+    }
+    @RequestMapping(value = "/time", method = RequestMethod.GET)
+    public String time (HttpSession session, Model model) {
+        if (session.getAttribute("admin") != null){
+            List<OnLineTimeResp> onlineTime = adminService.getOnlineTime();
+            model.addAttribute("list", onlineTime);
+            return "time";
         } else {
             return "login";
         }

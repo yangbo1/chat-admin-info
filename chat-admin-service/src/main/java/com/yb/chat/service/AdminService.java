@@ -5,6 +5,7 @@ package com.yb.chat.service;
 
 
 import com.yb.chat.client.response.LogResp;
+import com.yb.chat.resp.OnLineTimeResp;
 
 import java.util.List;
 
@@ -48,4 +49,10 @@ public interface AdminService {
      * @return
      */
     Object log(String name, int c, int p, String sort);
+
+    /**
+     * 获取用户在线时长
+     * @return
+     */
+    List<OnLineTimeResp> getOnlineTime();
 }

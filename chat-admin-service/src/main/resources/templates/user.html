@@ -27,40 +27,7 @@
                 h3. 这是一套可视化布局系统.
             </h3>
             <div th:include="header :: html"></div>
-            <!--<table class="table table-hover table-striped">
-                <thead>
-                <tr>
-                    <th>
-                        账号
-                    </th>
-                    <th>
-                        姓名
-                    </th>
-                    <th>
-                        性别
-                    </th>
-                    <th>
-                        注册时间
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr class="success">
-                    <td>
-                        1
-                    </td>
-                    <td>
-                        啊啊啊
-                    </td>
-                    <td>
-                        女
-                    </td>
-                    <td>
-                        2018-2-9
-                    </td>
-                </tr>
-                </tbody>
-            </table>-->
+
             <div id="callBackPagination" class="piece">
                 <div id="mainContent"></div>
                 <div id="callBackPager"></div>
@@ -155,9 +122,9 @@
                             <button type="button" class="btn btn-default"
                                     data-dismiss="modal">关闭
                             </button>
-                            <button type="button" class="btn btn-primary">
-                                提交更改
-                            </button>
+                            <!--<button type="button" class="btn btn-primary">-->
+                                <!--提交更改-->
+                            <!--</button>-->
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
@@ -167,21 +134,20 @@
 </div>
 </body>
 <script type="text/javascript">
-
+    var isOk = false
     $(document).ready(function () {
-        var totalCount = Number($('#totalCount1').val()) || 10, showCount = $('#showCount1').val(),
+        var totalCount = Number($('#totalCount1').val()) || 1, showCount = $('#showCount1').val(),
 
             limit = Number($('#limit').val()) || 5;
 
         createTable(1, limit, totalCount);
-
-
 
         function createTable(currPage, limit, total) {
             $.ajax({
                        type: "get",
                        url: "http://localhost:9999/admin/userList",
                        dataType: "json",
+                        async: "false",
                        data: {
                            "currentPage": currPage,
                            "pageSize": limit
@@ -191,6 +157,7 @@
                            if (data) {
                                var html = [], showNum = limit;
                                totalCount = data.total;
+                               isOk = true
                                total = data.total;
                                if (total - (currPage * limit) < 0) showNum = total - ((currPage - 1) * limit);
 
@@ -230,21 +197,27 @@
                    })
 
         }
-        $('#callBackPager').extendPagination({
+        var interval = setInterval(function () {
+            if (isOk == true) {
+                $('#callBackPager').extendPagination({
 
-                                                 totalCount: totalCount,
+                                                         totalCount: totalCount,
 
-                                                 showCount: showCount,
+                                                         showCount: showCount,
 
-                                                 limit: limit,
+                                                         limit: limit,
 
-                                                 callback: function (curr, limit, totalCount) {
+                                                         callback: function (curr, limit, totalCount) {
 
-                                                     createTable(curr, limit, totalCount);
+                                                             createTable(curr, limit, totalCount);
 
-                                                 }
+                                                         }
 
-                                             });
+                                                     });
+                clearInterval(interval)
+            }
+        }, 500);
+
     })
     function showInfo(data) {
         $("#myModalLabel").text(data.name+"的信息")

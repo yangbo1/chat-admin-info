@@ -27,6 +27,17 @@
                 h3. 这是一套可视化布局系统.
             </h3>
             <div th:include="header :: html"></div>
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    用户名
+                        <input type="text" style="height:31px; width:150px" id="user" name="user" placeholder="输入用户名">
+
+                        <input type="radio"  name="sort" value="0" placeholder="" checked>顺序
+                        <input type="radio"  name="sort" value="1" placeholder="">倒序
+                        <button type="reset" class="btn btn-default">重置</button>
+                        <button type="button" onclick="findList()" class="btn btn-default">查询</button>
+                </div>
+            </form>
             <div id="callBackPagination" class="piece">
                 <div id="mainContent"></div>
                 <div id="callBackPager"></div>
@@ -36,31 +47,37 @@
 </div>
 </body>
 <script type="text/javascript">
-
+    var isOK = false;
     $(document).ready(function () {
-        var totalCount = Number($('#totalCount1').val()) || 500 , showCount = $('#showCount1').val(),
+        findList()
+    })
+    function findList() {
+        var totalCount = Number($('#totalCount1').val()) || 1 , showCount = $('#showCount1').val(),
 
             limit = Number($('#limit').val()) || 15;
-
+        var name = $("#user").val() || "";
+//        var sort = $("#sort").val() || "";
+        var sort = $("input[name='sort']:checked").val();
         createTable(1, limit, totalCount);
 
 
-
+        function createTable(currPage, limit, total) {
             $.ajax({
                        type: "get",
                        url: "http://localhost:9999/admin/logInfo",
                        dataType: "json",
                        data: {
-                           "name": "",
+                           "name": name,
                            "currentPage": currPage,
                            "pageSize": limit,
-                           "sort": ""
+                           "sort": sort
                        },
                        success: function (data) {
 
                            if (data) {
                                var html = [], showNum = limit;
                                totalCount = data.total;
+                               isOK = true;
                                total = data.total;
                                if (total - (currPage * limit) < 0) showNum = total - ((currPage - 1) * limit);
 
@@ -74,10 +91,11 @@
                                    var name = data.list[i-1].userName
                                    var ty = data.list[i-1].type
                                    var type = "";
-                                   if (ty == 1) {type = "登录"}
-                                   if (ty == 0) {type = "注销"}
                                    var cs = "success";
-                                   if (i%2==0) {cs = "active"}
+                                   if (ty == 1) {type = "登录"}
+                                   if (ty == 0) {type = "注销"; cs = "danger"}
+
+
                                    html.push('<tr class='+cs+'><td>'+name+'</td>');
                                    html.push('<td>'+type+'</td>');
                                    html.push('<td>'+timestampToTime(data.list[i-1].time)+'</td>');
@@ -99,22 +117,29 @@
                    })
 
         }
-        $('#callBackPager').extendPagination({
+        var interval = setInterval(function(){
 
-                                                 totalCount: totalCount,
+            if(isOK == true){
+                $('#callBackPager').extendPagination({
 
-                                                 showCount: showCount,
+                                                         totalCount: totalCount,
 
-                                                 limit: limit,
+                                                         showCount: showCount,
 
-                                                 callback: function (curr, limit, totalCount) {
+                                                         limit: limit,
 
-                                                     createTable(curr, limit, totalCount);
+                                                         callback: function (curr, limit, totalCount) {
 
-                                                 }
+                                                             createTable(curr, limit, totalCount);
 
-                                             });
-    })
+                                                         }
+
+                                                     });
+                clearInterval(interval)
+            }
+        }, 500);
+    }
+
     function timestampToTime(timestamp) {
         var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
         Y = date.getFullYear() + '-';

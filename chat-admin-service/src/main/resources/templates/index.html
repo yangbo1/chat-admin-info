@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+
 <!-- 新 Bootstrap 核心 CSS 文件 -->
 <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
@@ -17,6 +18,7 @@
 
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script th:src="@{/js/Chart.js}"></script>
 <body>
 <div class="container-fluid" id="LG">
     <div class="row-fluid">
@@ -30,7 +32,52 @@
                 <li th:text="${ol}"></li>
             </ul>
         </div>
+        <canvas id="canvas" height="300" width="950"></canvas>
     </div>
+
 </div>
 </body>
+<script>
+    var config = {
+        type: "line",
+        data : {
+            labels : ["Mongodb","jquery","Laravel","bootstrap","vue.js","Html5","CSS3","php","Linux","MySQL"],
+            datasets : [
+                {
+                    label: "一",
+                    backgroundColor : "rgb(255, 99, 132)",
+                    borderColor : "rgb(255, 99, 132)",
+                    fill: false,
+                    data : [65,59,90,81,56,55,140,29,15,25]
+                },
+                {
+                    backgroundColor : "rgb(54, 162, 235)",
+                    borderColor : "rgb(54, 162, 235)",
+                    fill : false,
+                    data : [28,48,40,19,96,127,100,36,52,34]
+                }
+            ]
+
+        },
+        options : {
+            responsive: true,
+            title: {
+                display: true,
+                text: 'Chart.js Line Chart - Logarithmic'
+            },
+            scales: {
+                xAxes: [{
+                    display: true,
+                }],
+                yAxes: [{
+                    display: true,
+//                    type: 'logarithmic',
+                }]
+            }
+    }
+    }
+
+    var chart = document.getElementById("canvas").getContext("2d");
+    var myLine = new Chart(chart, config);
+</script>
 </html>
