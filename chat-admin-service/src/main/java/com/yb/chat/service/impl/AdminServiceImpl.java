@@ -7,6 +7,7 @@ import com.google.common.base.Strings;
 
 import com.github.pagehelper.PageInfo;
 import com.yb.chat.client.UserServiceClient;
+import com.yb.chat.client.response.CountUserResp;
 import com.yb.chat.client.response.LogResp;
 import com.yb.chat.client.response.UserResp;
 import com.yb.chat.resp.OnLineTimeResp;
@@ -109,5 +110,24 @@ public class AdminServiceImpl implements AdminService {
             }
         });
         return onLineTimeResps;
+    }
+
+    /**
+     * 统计每天在线人数
+     *
+     * @return
+     */
+    @Override
+    public List<CountUserResp> getCountUserByDay() {
+        return userServiceClient.getCountUserByDay();
+    }
+    /**
+     * 统计每天访问人次
+     *
+     * @return
+     */
+    @Override
+    public List<CountUserResp> getCountTimesByDay() {
+        return userServiceClient.getCountTimesByDay();
     }
 }

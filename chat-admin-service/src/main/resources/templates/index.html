@@ -44,13 +44,14 @@
             labels : ["Mongodb","jquery","Laravel","bootstrap","vue.js","Html5","CSS3","php","Linux","MySQL"],
             datasets : [
                 {
-                    label: "一",
+                    label: "每天在线人数",
                     backgroundColor : "rgb(255, 99, 132)",
                     borderColor : "rgb(255, 99, 132)",
                     fill: false,
                     data : [65,59,90,81,56,55,140,29,15,25]
                 },
                 {
+                    label: "每天访问人次",
                     backgroundColor : "rgb(54, 162, 235)",
                     borderColor : "rgb(54, 162, 235)",
                     fill : false,
@@ -63,7 +64,7 @@
             responsive: true,
             title: {
                 display: true,
-                text: 'Chart.js Line Chart - Logarithmic'
+                text: '每日在线情况'
             },
             scales: {
                 xAxes: [{
@@ -74,8 +75,33 @@
 //                    type: 'logarithmic',
                 }]
             }
+        }
     }
-    }
+    $.ajax({
+        type: "get",
+        async: false,
+        url : "http://localhost:9999/admin/getCountUserByDay",
+        success: function (data) {
+            config.data.labels = [];
+            config.data.datasets[0].data = [];
+            for (var i = 0; i < data.length; i ++) {
+                config.data.labels.push(data[i].date)
+                config.data.datasets[0].data.push(data[i].num)
+            }
+        }
+           })
+    $.ajax({
+               type: "get",
+                async: false,
+               url : "http://localhost:9999/admin/getCountTimesByDay",
+               success: function (data) {
+                   config.data.datasets[1].data = [];
+                   for (var i = 0; i < data.length; i ++) {
+                       config.data.datasets[1].data.push(data[i].num)
+                   }
+               }
+           })
+
 
     var chart = document.getElementById("canvas").getContext("2d");
     var myLine = new Chart(chart, config);

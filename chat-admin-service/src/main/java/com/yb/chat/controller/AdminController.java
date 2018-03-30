@@ -5,6 +5,7 @@ package com.yb.chat.controller;
 
 import com.google.common.base.Strings;
 
+import com.yb.chat.client.response.CountUserResp;
 import com.yb.chat.resp.OnLineTimeResp;
 import com.yb.chat.service.AdminService;
 
@@ -149,5 +150,27 @@ public class AdminController {
         } else {
             return "login";
         }
+    }
+
+    /**
+     * 统计每天在线人数
+     *
+     * @return
+     */
+    @RequestMapping(value = "/getCountUserByDay", method = RequestMethod.GET)
+    @ResponseBody
+    public List<CountUserResp> getCountUserByDay() {
+        return adminService.getCountUserByDay();
+    }
+
+    /**
+     * 统计每天访问人次
+     *
+     * @return
+     */
+    @RequestMapping(value = "/getCountTimesByDay", method = RequestMethod.GET)
+    @ResponseBody
+    public List<CountUserResp> getCountTimesByDay() {
+        return adminService.getCountTimesByDay();
     }
 }

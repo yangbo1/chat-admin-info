@@ -4,6 +4,7 @@
 package com.yb.chat.service;
 
 
+import com.yb.chat.client.response.CountUserResp;
 import com.yb.chat.client.response.LogResp;
 import com.yb.chat.resp.OnLineTimeResp;
 
@@ -55,4 +56,17 @@ public interface AdminService {
      * @return
      */
     List<OnLineTimeResp> getOnlineTime();
+
+    /**
+     * 统计每天在线人数
+     *
+     * @return
+     */
+    List<CountUserResp> getCountUserByDay();
+    /**
+     * 统计每天访问人次
+     *
+     * @return
+     */
+    List<CountUserResp> getCountTimesByDay();
 }
