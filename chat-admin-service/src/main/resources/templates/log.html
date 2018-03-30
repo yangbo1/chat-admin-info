@@ -64,7 +64,7 @@
         function createTable(currPage, limit, total) {
             $.ajax({
                        type: "get",
-                       url: "http://localhost:9999/admin/logInfo",
+                       url: url+"/logInfo",
                        dataType: "json",
                        data: {
                            "name": name,

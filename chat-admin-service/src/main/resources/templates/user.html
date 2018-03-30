@@ -145,7 +145,7 @@
         function createTable(currPage, limit, total) {
             $.ajax({
                        type: "get",
-                       url: "http://localhost:9999/admin/userList",
+                       url: url+"/userList",
                        dataType: "json",
                         async: "false",
                        data: {
@@ -240,7 +240,7 @@
         $("#myModal").modal("show")
         $.ajax({
             type : "get",
-            url : "http://localhost:9999/admin/userLastLoginTime/"+ data.name,
+            url : url+"/userLastLoginTime/"+ data.name,
             success: function (time) {
                 $(".modal-body #lastTime").text(timestampToTime(time) || " #")
             }

@@ -80,7 +80,7 @@
     $.ajax({
         type: "get",
         async: false,
-        url : "http://localhost:9999/admin/getCountUserByDay",
+        url : url+"/getCountUserByDay",
         success: function (data) {
             config.data.labels = [];
             config.data.datasets[0].data = [];
@@ -93,7 +93,7 @@
     $.ajax({
                type: "get",
                 async: false,
-               url : "http://localhost:9999/admin/getCountTimesByDay",
+               url : url+"/getCountTimesByDay",
                success: function (data) {
                    config.data.datasets[1].data = [];
                    for (var i = 0; i < data.length; i ++) {
