@@ -32,8 +32,8 @@
                     用户名
                         <input type="text" style="height:31px; width:150px" id="user" name="user" placeholder="输入用户名">
 
-                        <input type="radio"  name="sort" value="0" placeholder="" checked>顺序
-                        <input type="radio"  name="sort" value="1" placeholder="">倒序
+                    <input type="radio"  name="sort" value="1" placeholder=""  checked>倒序
+                    <input type="radio"  name="sort" value="0" placeholder="">顺序
                         <button type="reset" class="btn btn-default">重置</button>
                         <button type="button" onclick="findList()" class="btn btn-default">查询</button>
                 </div>
@@ -85,7 +85,7 @@
 
                                html.push(' <caption>总记录(' + total + ')</caption>');
 
-                               html.push(' <thead><tr><th>账号</th><th>类型</th><th>时间</th></tr></thead><tbody>');
+                               html.push(' <thead><tr><th>账号</th><th>类型</th><th>时间</th><th>地理位置</th><th>系统信息</th></tr></thead><tbody>');
 
                                for (var i = 1; i <= showNum; i++) {
                                    var name = data.list[i-1].userName
@@ -99,6 +99,8 @@
                                    html.push('<tr class='+cs+'><td>'+name+'</td>');
                                    html.push('<td>'+type+'</td>');
                                    html.push('<td>'+timestampToTime(data.list[i-1].time)+'</td>');
+                                   html.push('<td>'+data.list[i-1].address+'</td>');
+                                   html.push('<td>'+data.list[i-1].system+'</td>');
 //                                   html.push('<td><button type="button" class="btn btn-info" data-toggle="modal" onclick="showInfo('+JSON.stringify(data.list[i-1]).replace(/"/g, '&quot;')+')">查看</button></td>');
                                    html.push('</tr>');
 
