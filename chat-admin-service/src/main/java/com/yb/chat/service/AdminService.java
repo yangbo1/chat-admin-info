@@ -69,4 +69,8 @@ public interface AdminService {
      * @return
      */
     List<CountUserResp> getCountTimesByDay();
+
+    String stopMessage(String message);
+
+    String stopTime(String name);
 }

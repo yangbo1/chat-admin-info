@@ -130,4 +130,15 @@ public class AdminServiceImpl implements AdminService {
     public List<CountUserResp> getCountTimesByDay() {
         return userServiceClient.getCountTimesByDay();
     }
+
+    @Override
+    public String stopMessage(String message) {
+        userServiceClient.stopMessage(message);
+        return "1";
+    }
+
+    @Override
+    public String stopTime(String name) {
+        return userServiceClient.stopTime(name);
+    }
 }

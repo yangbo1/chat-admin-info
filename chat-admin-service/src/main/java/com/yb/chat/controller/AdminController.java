@@ -173,4 +173,16 @@ public class AdminController {
     public List<CountUserResp> getCountTimesByDay() {
         return adminService.getCountTimesByDay();
     }
+
+    @RequestMapping(value = "/stopMessage", method = RequestMethod.POST)
+    @ResponseBody
+    public String stopMessage(HttpServletRequest request){
+        String message = request.getParameter("message");
+        return adminService.stopMessage(message);
+    }
+    @RequestMapping(value = "/stopTime/{name}", method = RequestMethod.GET)
+    @ResponseBody
+    public String stopStop(@PathVariable("name") String name){
+        return adminService.stopTime(name);
+    }
 }

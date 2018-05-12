@@ -23,9 +23,6 @@
 <div class="container-fluid" id="LG">
     <div class="row-fluid">
         <div class="span12">
-            <h3>
-                h3. 这是一套可视化布局系统.
-            </h3>
             <div th:include="header :: html"></div>
             <h1>当前在线人数<span th:text="${size}"/></h1>
             <ul th:each="ol : ${online}">

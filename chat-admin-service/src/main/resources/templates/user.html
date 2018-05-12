@@ -23,9 +23,6 @@
 <div class="container-fluid" id="LG">
     <div class="row-fluid">
         <div class="span12">
-            <h3>
-                h3. 这是一套可视化布局系统.
-            </h3>
             <div th:include="header :: html"></div>
 
             <div id="callBackPagination" class="piece">
@@ -37,6 +34,33 @@
             <!--<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">-->
                 <!--开始演示模态框-->
             <!--</button>-->
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"
+                                    aria-hidden="true">×
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel2">
+                                模态框（Modal）标题
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" hidden="hidden" id="userName">
+                            <input type="text" id="stopTime" placeholder="请输入禁言时长"/>分钟
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"
+                                    data-dismiss="modal">关闭
+                            </button>
+                            <button type="button" id="stopBtn" class="btn btn-primary">
+                                确认禁言
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
             <!-- 模态框（Modal） -->
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -172,14 +196,33 @@
                                    var img = data.list[i-1].img
                                    var realName = data.list[i-1].realName || ""
                                    var gender = data.list[i-1].gender || ""
-
+                                   var mes = "";
+                                   $.ajax({
+                                       type: "get",
+                                       url: url+"/stopTime/"+name,
+                                       async: false,
+                                       success: function (data) {
+                                           if (data != null){
+                                               var m = JSON.parse(data).message;
+                                               var t = m.content
+                                               var start = m.time;
+                                               if ((t*1000 + start ) > new Date().getTime()) {
+                                                   mes = "(已禁言，到"+timestampToTime(t*1000 + start)+")"
+                                               }
+                                           }
+                                       }
+                                   })
                                    var cs = "success";
                                    if (i%2==0) {cs = "active"}
                                    html.push('<tr class='+cs+'><td>'+name+'</td>');
                                    html.push('<td>'+realName+'</td>');
                                    html.push('<td>'+gender+'</td>');
                                    html.push('<td>'+timestampToTime(data.list[i-1].registTime)+'</td>');
-                                   html.push('<td><button type="button" class="btn btn-info" data-toggle="modal" onclick="showInfo('+JSON.stringify(data.list[i-1]).replace(/"/g, '&quot;')+')">查看</button></td>');
+                                   html.push('<td>' +
+                                       '<button type="button" class="btn btn-info" data-toggle="modal" onclick="showInfo('+JSON.stringify(data.list[i-1]).replace(/"/g, '&quot;')+')">查看</button>' +
+                                       '<button type="button" class="btn btn-info" data-toggle="modal" onclick="stopTime('+JSON.stringify(data.list[i-1]).replace(/"/g, '&quot;')+')">禁言</button>' +
+                                           mes+
+                                       '</td>');
                                    html.push('</tr>');
 
                                }
@@ -219,6 +262,30 @@
         }, 500);
 
     })
+    $("#stopBtn").click(function () {
+        var name = $(".modal-body #userName").val();
+        var time = $(".modal-body #stopTime").val();
+//        alert(name+time)
+        var mess = {"message":{"content":time*60,"from":"管理员","to":name,"time":new Date().getTime()},"type":"stop"};
+        $.ajax({
+            type: "post",
+            url: url+"/stopMessage",
+            data: {
+                message: JSON.stringify(mess)
+            },
+            success: function (data) {
+                if (data == "1") {
+                    alert("禁言成功")
+                }
+            }
+        })
+    })
+    function stopTime(data) {
+        $(".modal-body #stopTime").val("")
+        $(".modal-body #userName").val(data.name)
+        $("#myModalLabel2").text("禁言"+data.name)
+        $("#myModal2").modal("show")
+    }
     function showInfo(data) {
         $("#myModalLabel").text(data.name+"的信息")
 //        var html = [];
